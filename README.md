@@ -27,7 +27,7 @@ Install Code
 ```vcpkg install sfml boost-asi, curl```
 
 
-coming soon
+Coming soon
 -----------
 Make code neater
 
