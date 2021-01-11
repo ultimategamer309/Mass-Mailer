@@ -21,7 +21,10 @@ Install Code
 ------------
 1. Clone directory via git
 2. Install sfml, boost.asio, and libcurl
-    This can easily be done on vcpkg with the command ```vcpkg install sfml, boost-asio, curl```
+
+**This can easily be done on vcpkg with the command**
+
+```vcpkg install sfml, boost-asio, curl```
 
 
 coming soon
