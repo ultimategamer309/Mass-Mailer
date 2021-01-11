@@ -19,7 +19,7 @@ Install Release
 
 Install Code
 ------------
-1. Clone directory via git
+1. Clone Src branch via git
 2. Install sfml, boost.asio, and libcurl
 
 **This can easily be done on vcpkg with the command**
