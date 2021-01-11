@@ -24,7 +24,7 @@ Install Code
 
 **This can easily be done on vcpkg with the command**
 
-```vcpkg install sfml boost-asi, curl```
+```vcpkg install sfml boost-asio curl```
 
 
 Coming soon
