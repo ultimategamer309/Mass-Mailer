@@ -8,6 +8,7 @@ This is one of my first completed c++ projects as I am not very good at finishin
 
 coming soon
 -----------
-Make this send stmp emails independant of Mailgun.
+
+Make this send stmp emails independant of Mailgun
 
 Fix the issue of mail always going to spam
