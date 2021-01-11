@@ -10,8 +10,23 @@ Screenshots
 -----------
 ![Alt text](Screenshots/Home.JPG?raw=true "Title")
 
+Install Release
+---------------
+1. Install Visual c++ redistributables: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+2. Install release .zip
+3. Extract .zip
+4. run exe
+
+Install Code
+------------
+1. Clone directory via git
+2. Install sfml, boost.asio, and libcurl
+    This can easily be done on vcpkg with the command ```vcpkg install sfml, boost-asio, curl```
+
+
 coming soon
 -----------
+Make code neater
 
 Make this send stmp emails independant of Mailgun
 
