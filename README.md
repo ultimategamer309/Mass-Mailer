@@ -6,6 +6,10 @@ It has 3 dependancys. Sfml for drawing the gui. Boost.Asio for multiple uses inc
 
 This is one of my first completed c++ projects as I am not very good at finishing things.
 
+Screenshots
+-----------
+![Alt text](Screenshots/Home.JPG?raw=true "Title")
+
 coming soon
 -----------
 
