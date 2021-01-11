@@ -9,19 +9,15 @@ mailman::mailman(std::vector<std::string> recipiants,
 	int threads,
 	bool isHtml,
 	std::string server) {
-	this->recipiants = recipiants;
-	this->from = from;
-	this->senderName = senderName;
-	this->message = message;
-	this->secret = key;
-	this->total = recipiants.size();
-	this->completed = 0;
-	this->remaining = this->total;
-	this->threads = threads;
-	this->isHtml = isHtml;
-	this->server = server;
-	this->deffined = true;
-	this->subject = subject;
+	set(recipiants,
+		from,
+		senderName,
+		subject,
+		message,
+		key,
+		threads,
+		isHtml,
+		server);
 }
 //init
 void mailman::set(std::vector<std::string> recipiants,
