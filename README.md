@@ -26,6 +26,10 @@ Install Code
 
 ```vcpkg install sfml boost-asio curl```
 
+**This can easily be done on Linux with the commands**
+
+```apt-get install libsfml-dev libboost-all-dev libcurl4-openssl-dev```
+
 
 Coming soon
 -----------
