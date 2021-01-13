@@ -1,48 +1,17 @@
 #include "mailman.h"
 //init
-mailman::mailman(std::vector<std::string> recipiants,
-	std::string from,
-	std::string senderName,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string key,
-	int threads,
-	bool isHtml,
-	std::string server) {
-	set(recipiants,
-		from,
-		senderName,
-		subject,
-		message,
-		key,
-		threads,
-		isHtml,
-		server);
+mailman::mailman(std::vector<std::string> &recipiants, int threads) {
+	set(recipiants, threads);
 }
 //init
-void mailman::set(std::vector<std::string> recipiants,
-	std::string from,
-	std::string senderName,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string key,
-	int threads,
-	bool isHtml,
-	std::string server) {
+void mailman::set(std::vector<std::string> &recipiants, int threads) {
 	//set values
-	this->recipiants = recipiants;
-	this->from = from;
-	this->senderName = senderName;
-	this->message = message;
-	this->secret = key;
+	this->recipiants = &recipiants;
 	this->total = recipiants.size();
 	this->completed = 0;
 	this->remaining = this->total;
 	this->threads = threads;
-	this->isHtml = isHtml;
-	this->server = server;
 	this->deffined = true;
-	this->subject = subject;
 }
 
 //init latter
@@ -64,37 +33,19 @@ int mailman::validate() {
 
 	recipiantsValidateTemp.clear();
 	boost::asio::thread_pool pool(threads);
-	for (std::string i : recipiants) {
-		boost::asio::post(pool, boost::bind(&mailman::isValid,
-			i,
-			from,
-			senderName,
-			subject,
-			message,
-			secret,
-			&recipiantsValidateTemp,
-			server));
+	for (std::string &i : *recipiants) {
+		boost::asio::post(pool, boost::bind(&mailman::isValid, i, &recipiantsValidateTemp));
 	}
-	recipiants = recipiantsValidateTemp;
+	recipiants1 = recipiantsValidateTemp;
 	recipiantsValidateTemp.clear();
+	recipiants = &recipiants1;
 
 	return recipiantsValidateTemp.size();
 }
 
 bool mailman::isValid(std::string to,
-	std::string from,
-	std::string senderName,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string secret,
-	std::vector<std::string> *validStrings,
-	std::string server) {
-	mail m;
-
-	if (server == "")
-		m.set(to, from, senderName, subject, message, secret);
-	else
-		m.set(to, from, senderName, subject, message, secret, false, server);
+	std::vector<std::string> *validStrings) {
+	mail m(to);
 
 	bool res = m.vaidate();
 	if (res) {
@@ -111,16 +62,8 @@ bool mailman::start()
 		return false;
 
 	boost::asio::thread_pool pool(threads);
-	for (int i = 0; i < total; i++) {
-		boost::asio::post(pool, boost::bind(&mailman::send,
-			recipiants[0],
-			from,
-			senderName,
-			subject,
-			message,
-			secret,
-			isHtml,
-			server));
+	for (std::string& i : *recipiants) {
+		boost::asio::post(pool, boost::bind(&mailman::send, i));
 
 		++completed;
 		--remaining;
@@ -129,19 +72,8 @@ bool mailman::start()
 	return true;
 }
 
-void mailman::send(std::string to,
-	std::string from,
-	std::string senderName,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string secret,
-	bool html,
-	std::string server){
-	mail m;
-	if (server == "0")
-		m.set(to, from, senderName, subject, message, secret, html);
-	else
-		m.set(to, from, senderName, subject, message, secret, html, server);
+void mailman::send(std::string to){
+	mail m(to);
 	m.send();
 }
 
@@ -158,6 +90,6 @@ int mailman::getRemaining() {
 	return remaining;
 }
 /*Returns the mailing list*/
-std::vector<std::string> mailman::getRecipiants() {
+std::vector<std::string>* mailman::getRecipiants() {
 	return recipiants;
 }
