@@ -14,6 +14,20 @@ gui::gui() {
 	font.loadFromFile("Assets/Fonts/NimbusRom.otf");
 	titleFont.loadFromFile("Assets/Fonts/title.ttf");
 
+	//set universals
+	//Buttons
+	universal::buttonBorder = backround;
+	universal::buttonFill = titleBar;
+	universal::buttonOutline = 5;
+	//checkbox
+	universal::checkboxBorder = textColor;
+	universal::checkboxFill = titleBar;
+	universal::checkboxBoxSize = 25;
+	universal::checkboxTextSeperation = 10;
+	universal::textRightOfCheckbox = true;
+	//reader
+	universal::read = &read;
+
 	sf::RectangleShape titleBack;
 	titleBack.setFillColor(titleBar);
 	titleBack.setPosition(0, 0);
@@ -53,11 +67,8 @@ gui::gui() {
 		sendTitle.getGlobalBounds().top + sendTitle.getGlobalBounds().height + 10,
 		(sendBox.getGlobalBounds().width - 65) / 2,
 		sendBox.getGlobalBounds().height / 4,
-		backround,
-		titleBar,
 		validateCallback,
-		validateT,
-		&read);
+		validateT);
 	validateB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(validateB));
 
@@ -67,11 +78,8 @@ gui::gui() {
 		validateB.getTop(),
 		validateB.getWidth(),
 		validateB.getHight(),
-		backround,
-		titleBar,
 		sendCallback,
-		sendT,
-		&read);
+		sendT);
 	sendB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(sendB));
 
@@ -107,11 +115,8 @@ gui::gui() {
 		listTitle.getGlobalBounds().top + 5,
 		(ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - 10) / 4,
 		loadedEmails.getGlobalBounds().height,
-		backround,
-		titleBar,
 		veiwListCallback,
-		veiwListT,
-		&read);
+		veiwListT);
 	veiwListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(veiwListB));
 
@@ -121,11 +126,8 @@ gui::gui() {
 		loadedEmails.getGlobalBounds().top,
 		(ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - (25 * 2) - (15 * 5)) / 5,
 		loadedEmails.getGlobalBounds().height,
-		backround,
-		titleBar,
 		loadListCallback,
-		loadListT,
-		&read);
+		loadListT);
 	loadListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(loadListB));
 
@@ -135,11 +137,8 @@ gui::gui() {
 		loadListB.getTop(),
 		loadListB.getWidth(),
 		loadListB.getHight(),
-		backround,
-		titleBar,
 		exportListCallback,
-		exportListT,
-		&read);
+		exportListT);
 	exportListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(exportListB));
 
@@ -149,11 +148,8 @@ gui::gui() {
 		exportListB.getTop(),
 		exportListB.getWidth(),
 		exportListB.getHight(),
-		backround,
-		titleBar,
 		addRecipiantCallback,
-		addListT,
-		&read);
+		addListT);
 	addListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(addListB));
 
@@ -163,11 +159,8 @@ gui::gui() {
 		addListB.getTop(),
 		addListB.getWidth(),
 		addListB.getHight(),
-		backround,
-		titleBar,
 		removeRecipiantCallback,
-		removeListT,
-		&read);
+		removeListT);
 	removeListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(removeListB));
 
@@ -177,11 +170,8 @@ gui::gui() {
 		removeListB.getTop(),
 		removeListB.getWidth(),
 		removeListB.getHight(),
-		backround,
-		titleBar,
 		wipeRecipiantCallback,
-		wipeListT,
-		&read);
+		wipeListT);
 	wipeListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(wipeListB));
 
@@ -194,11 +184,8 @@ gui::gui() {
 		ListBox.getGlobalBounds().top - 60,
 		window.getSize().x - 20,
 		50,
-		textColor,
-		titleBar,
 		validateCallback,
-		progbarT,
-		&read);
+		progbarT);
 	progbarB.getDrawables(toDraw);
 
 	//settings
@@ -218,11 +205,8 @@ gui::gui() {
 		settingBox.getGlobalBounds().top + 20,
 		senderNameT.getGlobalBounds().width + 20,
 		senderNameT.getGlobalBounds().height + 20,
-		backround,
-		titleBar,
 		changeSenderCallback,
-		senderNameT,
-		&read);
+		senderNameT);
 	senderNameB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(senderNameB));
 
@@ -232,11 +216,8 @@ gui::gui() {
 		senderNameB.getTop() + senderNameB.getHight() + 20,
 		senderEmailT.getGlobalBounds().width + 20,
 		senderEmailT.getGlobalBounds().height + 20,
-		backround,
-		titleBar,
 		changeSendEmailCallback,
-		senderEmailT,
-		&read);
+		senderEmailT);
 	senderEmailB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(senderEmailB));
 
@@ -258,10 +239,6 @@ gui::gui() {
 	sf::Text isHtmlT("Message is in html", font, textSize);
 	isHtmlB.set(senderEmailB.getLeft(),
 		(senderNameB.getHight() / 2) - (25 / 2) + senderEmailB.getTop() + senderEmailB.getHight() + 20,
-		25,
-		10,
-		textColor,
-		titleBar,
 		isHtmlT,
 		read.getIsHtml());
 	isHtmlB.getDrawables(toDraw);
@@ -273,11 +250,8 @@ gui::gui() {
 		senderNameB.getTop() + (3 * senderNameB.getHight()) + 60,
 		senderEmailB.getWidth(),
 		senderEmailB.getHight(),
-		backround,
-		titleBar,
 		changeSubjectCallback,
-		mesSubjectT,
-		&read);
+		mesSubjectT);
 	mesSubjectB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(mesSubjectB));
 
@@ -287,11 +261,8 @@ gui::gui() {
 		mesSubjectB.getTop() + senderEmailB.getHight() + 20,
 		senderEmailB.getWidth(),
 		senderEmailB.getHight(),
-		backround,
-		titleBar,
 		changeMessageCallback,
-		mesT,
-		&read);
+		mesT);
 	mesB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(mesB));
 
@@ -311,11 +282,8 @@ gui::gui() {
 		mesB.getTop(),
 		mesB.getWidth() * 2,
 		mesB.getHight(),
-		backround,
-		titleBar,
 		changeThreadsCallback,
-		threadsAllotedT,
-		&read);
+		threadsAllotedT);
 	threadsT = &threadsAllotedT;
 	threadsB = &threadsAlloted;
 	threadsAlloted.getDrawables(toDraw);
@@ -327,11 +295,8 @@ gui::gui() {
 		mesSubjectB.getTop(),
 		mesSubjectB.getWidth(),
 		mesSubjectB.getHight(),
-		backround,
-		titleBar,
 		changeThreadsCallback,
-		changeThreadsT,
-		&read);
+		changeThreadsT);
 	changeThreadsB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(changeThreadsB));
 
@@ -347,10 +312,6 @@ gui::gui() {
 	sf::Text isDefaultServerT("Use Default Server", font, textSize);
 	isDefaultServerC.set(threadsAlloted.getLeft() + threadsAlloted.getWidth() + 30,
 		(senderNameB.getHight() / 2) + senderNameB.getTop() - (25 / 2) - outline,
-		25,
-		10,
-		textColor,
-		titleBar,
 		isDefaultServerT,
 		read.isDefaultServer());
 	isDefaultServerC.getDrawables(toDraw);
@@ -362,11 +323,8 @@ gui::gui() {
 		senderEmailB.getTop() - 10,
 		senderEmailB.getWidth(),
 		senderEmailB.getHight(),
-		backround,
-		titleBar,
 		changeServerCallback,
-		changeServerT,
-		&read);
+		changeServerT);
 	changeServerB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(changeServerB));
 
@@ -376,11 +334,8 @@ gui::gui() {
 		changeServerB.getTop() + changeServerB.getHight() + 20,
 		senderEmailB.getWidth(),
 		senderEmailB.getHight(),
-		backround,
-		titleBar,
 		changeKeyCallback,
-		changeKeyT,
-		&read);
+		changeKeyT);
 	changeKeyB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(changeKeyB));
 
@@ -396,10 +351,6 @@ gui::gui() {
 	sf::Text isdebuggingT("Show Debugger", font, textSize);
 	isDegugC.set(changeKeyB.getLeft(),
 		(changeThreadsB.getHight() / 2) + changeThreadsB.getTop() - (25/2) - outline,
-		25,
-		10,
-		textColor,
-		titleBar,
 		isdebuggingT,
 		false);
 	isDegugC.getDrawables(toDraw);
@@ -412,11 +363,8 @@ gui::gui() {
 		threadsAlloted.getTop(),
 		senderEmailB.getWidth(),
 		senderEmailB.getHight(),
-		backround,
-		titleBar,
 		saveDataCallback,
-		saveDataT,
-		&read);
+		saveDataT);
 	saveDataB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(saveDataB));
 
