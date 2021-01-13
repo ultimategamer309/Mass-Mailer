@@ -5,8 +5,6 @@ void button::setup(int left,
 	int top,
 	int width,
 	int hight,
-	sf::Color border,
-	sf::Color fill,
 	std::function<void(reader*)> onClick,
 	sf::Text& text,
 	reader* r) {
@@ -18,9 +16,9 @@ void button::setup(int left,
 	this->r = r;
 
 	sf::RectangleShape shape;
-	shape.setFillColor(fill);
-	shape.setOutlineColor(border);
-	shape.setOutlineThickness(5);
+	shape.setFillColor(universal::buttonFill);
+	shape.setOutlineColor(universal::buttonBorder);
+	shape.setOutlineThickness(universal::buttonOutline);
 	shape.setSize(sf::Vector2f(width, hight));
 	shape.setPosition(left, top);
 
@@ -190,8 +188,6 @@ yesOrNo::yesOrNo(std::string title,
 		200 - 22 - 10,
 		yT.getGlobalBounds().width + 10,
 		yT.getGlobalBounds().height + 10,
-		sf::Color::Black,
-		sf::Color(33, 33, 33),
 		yCallback,
 		yT,
 		&r);
@@ -202,8 +198,6 @@ yesOrNo::yesOrNo(std::string title,
 		y.getTop(),
 		y.getWidth(),
 		y.getHight(),
-		sf::Color::Black,
-		sf::Color(33, 33, 33),
 		nCallback,
 		nT,
 		&r);
@@ -301,42 +295,29 @@ alert::alert(std::string title, std::string alert, std::string alertLine2, std::
 
 checkbox::checkbox(int left,
 	int top,
-	int boxSize,
-	int spaceFromCheckboxToText,
-	sf::Color border,
-	sf::Color fill,
 	sf::Text title,
-	bool isTrue,
-	bool textRightOfCheckbox) {
+	bool isTrue)
+{
 	set(left,
 		top,
-		boxSize,
-		spaceFromCheckboxToText,
-		border,
-		fill,
 		title,
-		isTrue,
-		textRightOfCheckbox);
+		isTrue);
 }
 void checkbox::set(int left,
 	int top,
-	int boxSize,
-	int spaceFromCheckboxToText,
-	sf::Color border,
-	sf::Color fill,
 	sf::Text title,
-	bool isTrue,
-	bool textRightOfCheckbox) {
+	bool isTrue)
+{
 	checked = isTrue;
 	//copy vars to class
 	this->left = left;
 	this->top = top;
-	this->spaceFromCheckboxToText = spaceFromCheckboxToText;
+	this->spaceFromCheckboxToText = universal::checkboxTextSeperation;
 	t = title;
-	this->textRightOfCheckbox = textRightOfCheckbox;
-	this->border = border;
-	this->fill = fill;
-	this->boxSize = boxSize;
+	this->textRightOfCheckbox = universal::textRightOfCheckbox;
+	this->border = universal::checkboxBorder;
+	this->fill = universal::checkboxFill;
+	this->boxSize = universal::checkboxBoxSize;
 	checkedT.loadFromFile("Assets/Images/checked.png");
 	checkedT.setSmooth(true);
 	uncheckedT.loadFromFile("Assets/Images/unchecked.png");
