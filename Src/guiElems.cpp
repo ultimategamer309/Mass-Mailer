@@ -1,5 +1,46 @@
 #include "guiElems.h"
 
+void builder::setTextDefaults(sf::Font font, int size, sf::Color fill) {
+	textFont = font;
+	textSize = size;
+	textColor = fill;
+}
+sf::Text builder::text(std::string str,
+	int* size,
+	sf::Font* font,
+	sf::Color* fill) {
+	sf::Text t;
+	t.setString(str);
+	if (!size)
+		t.setCharacterSize(textSize);
+	else
+		t.setCharacterSize(*size);
+	if (!font)
+		t.setFont(textFont);
+	else
+		t.setFont(*font);
+	if (!fill)
+		t.setFillColor(textColor);
+	else
+		t.setFillColor(*fill);
+	return t;
+}
+void builder::setRectDefaults(sf::Color fill,
+	sf::Color borderColor,
+	int outlineThickness) {
+	rectFill = fill;
+	rectOutlineColor = borderColor;
+	rectOutlineThickness = outlineThickness;
+}
+sf::RectangleShape builder::rect(sf::Vector2f size, sf::Vector2f topLeft) {
+	sf::RectangleShape r(size);
+	r.setPosition(topLeft);
+	r.setFillColor(rectFill);
+	r.setOutlineColor(rectOutlineColor);
+	r.setOutlineThickness(rectOutlineThickness);
+	return r;
+}
+
 //button
 void button::setup(int left,
 	int top,
