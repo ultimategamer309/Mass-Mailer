@@ -8,6 +8,23 @@
 #include <iostream>
 #include "reader.h"
 
+class universal {
+public:
+
+	//Buttons
+	inline static sf::Color buttonBorder;
+	inline static sf::Color buttonFill;
+	inline static int buttonOutline;
+	//checkbox
+	inline static sf::Color checkboxBorder;
+	inline static sf::Color checkboxFill;
+	inline static int checkboxBoxSize;
+	inline static int checkboxTextSeperation;
+	inline static bool textRightOfCheckbox;
+	//reader
+	inline static reader* read;
+};
+
 class button {
 public:
 	bool isClicked(sf::Vector2i& clickPos);
@@ -15,11 +32,9 @@ public:
 		int top,
 		int width,
 		int hight,
-		sf::Color border,
-		sf::Color fill,
 		std::function<void(reader*)> onClick,
 		sf::Text& text,
-		reader *r);
+		reader* r = universal::read);
 	void updateTextPos();
 	void getDrawables(std::vector<sf::Drawable*>& drawVector);
 	int getLeft();
@@ -76,23 +91,13 @@ class checkbox {
 public:
 	checkbox(int left,
 		int top,
-		int boxSize,
-		int spaceFromCheckboxToText,
-		sf::Color border,
-		sf::Color fill,
 		sf::Text title,
-		bool isTrue,
-		bool textRightOfCheckbox = true);
+		bool isTrue);
 	checkbox();
 	void set(int left,
 		int top,
-		int boxSize,
-		int spaceFromCheckboxToText,
-		sf::Color border,
-		sf::Color fill,
 		sf::Text title,
-		bool isTrue,
-		bool textRightOfCheckbox = true);
+		bool isTrue);
 	bool getBool();
 	bool isClicked(sf::Vector2i clickPos);
 
