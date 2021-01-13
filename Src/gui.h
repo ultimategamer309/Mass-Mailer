@@ -125,4 +125,7 @@ private:
 	void hideConsole();
 	void showConsole();
 	bool isConsoleVisable();
+
+	//builder
+	builder builder;
 };
