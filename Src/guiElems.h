@@ -25,6 +25,44 @@ public:
 	inline static reader* read;
 };
 
+class setPos {
+public:
+	inline static sf::Vector2f middle(sf::RectangleShape& back, sf::Text text) {
+		return sf::Vector2f(
+			(back.getGlobalBounds().width / 2) - (text.getGlobalBounds().width / 2) + back.getGlobalBounds().left,
+			(back.getGlobalBounds().height / 2) - (text.getGlobalBounds().height / 1.25) + back.getGlobalBounds().top
+		);
+	}
+	inline static float middleX(sf::RectangleShape& back, sf::Text text) {
+		return (back.getGlobalBounds().width / 2) - (text.getGlobalBounds().width / 2) + back.getGlobalBounds().left;
+	}
+	inline static float middleY(sf::RectangleShape& back, sf::Text text) {
+		return (back.getGlobalBounds().height / 2) - (text.getGlobalBounds().height / 1.25) + back.getGlobalBounds().top;
+	}
+};
+
+class builder {
+public:
+	void setTextDefaults(sf::Font font, int size, sf::Color fill);
+	sf::Text text(std::string str,
+		int *size = nullptr,
+		sf::Font *font = nullptr,
+		sf::Color *fill = nullptr);
+	void setRectDefaults(sf::Color fill,
+		sf::Color borderColor,
+		int outlineThickness);
+	sf::RectangleShape rect(sf::Vector2f size, sf::Vector2f topLeft);
+private:
+	//text
+	sf::Font textFont;
+	int textSize;
+	sf::Color textColor;
+	//rect
+	sf::Color rectFill;
+	sf::Color rectOutlineColor;
+	int rectOutlineThickness;
+};
+
 class button {
 public:
 	bool isClicked(sf::Vector2i& clickPos);
