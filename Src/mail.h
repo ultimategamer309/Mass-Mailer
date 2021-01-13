@@ -8,25 +8,22 @@
 #include <boost/thread.hpp>
 #include <fstream>
 
+class mailConsts {
+public:
+	inline static std::string from;
+	inline static std::string name;
+	inline static std::string subject;
+	inline static std::vector<std::string> message;
+	inline static std::string secret;
+	inline static bool html;
+	inline static std::string server;
+};
+
 class mail
 {
 public:
-	mail(std::string to,
-		std::string from,
-		std::string name,
-		std::string subject,
-		std::vector<std::string> message,
-		std::string secret,
-		bool html = false,
-		std::string server = "https://api.mailgun.net/v3/sandbox7847fafcfb12470f8e94e86efad974b4.mailgun.org/messages");
-	void set(std::string to,
-		std::string from,
-		std::string name,
-		std::string subject,
-		std::vector<std::string> message,
-		std::string secret,
-		bool html = false,
-		std::string server = "https://api.mailgun.net/v3/sandbox7847fafcfb12470f8e94e86efad974b4.mailgun.org/messages");
+	mail(std::string to);
+	void set(std::string to);
 
 	mail();
 
