@@ -112,14 +112,26 @@ void reader::read() {
 
 //returns mailman with curent settings
 void reader::get() {
-	mailer = mailman(recipiants, from, name, subject, message, key, threads, isHtml, server);
+	mailConsts::from = from;
+	mailConsts::name = name;
+	mailConsts::from = from;
+	mailConsts::subject = subject;
+	mailConsts::message = message;
+	mailConsts::secret = key;
+	mailConsts::html = isHtml;
+	if (server == "0")
+		mailConsts::server = "https://api.mailgun.net/v3/sandbox7847fafcfb12470f8e94e86efad974b4.mailgun.org/messages";
+	else
+		mailConsts::server = server;
+	
+	mailer = mailman(recipiants, threads);
 }
 
 //actions
 void reader::validate() {
 	get();
 	mailer.validate();
-	recipiants = mailer.getRecipiants();
+	recipiants = *mailer.getRecipiants();
 }
 void reader::send() {
 	get();
