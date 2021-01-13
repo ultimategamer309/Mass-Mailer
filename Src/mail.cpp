@@ -3,31 +3,10 @@
 #pragma warning(disable:4996)
 
 //declair params
-mail::mail(std::string to,
-	std::string from,
-	std::string name,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string secret,
-	bool html,
-	std::string server) {
-	this->to = to;
-	this->from = from;
-	this->name = name;
-	this->subject = subject;
-	this->message = message;
-	this->secret = secret;
-	this->html = html;
-	this->server = server;
+mail::mail(std::string to) {
+	set(to);
 }
-void mail::set(std::string to,
-	std::string from,
-	std::string name,
-	std::string subject,
-	std::vector<std::string> message,
-	std::string secret,
-	bool html,
-	std::string server) {
+void mail::set(std::string to) {
 	this->to = to;
 	this->from = from;
 	this->name = name;
@@ -42,7 +21,7 @@ mail::mail() {}
 
 bool mail::send() {
 	std::string message = "";
-	for (std::string i : this->message) {
+	for (std::string &i : mailConsts::message) {
 		message += i;
 		message += '\n';
 	}
@@ -50,8 +29,8 @@ bool mail::send() {
 	CURL* curl;
 	CURLcode res;
 	std::string readBuffer;
-	std::string user = "api:" + secret;
-	std::string f = "from=" + name + "%3C" + from + "%3E";
+	std::string user = "api:" + mailConsts::secret;
+	std::string f = "from=" + mailConsts::name + "%3C" + mailConsts::from + "%3E";
 	std::string t = "to=" + to;
 	std::string sub1 = "subject=";
 	std::string mes;
@@ -98,8 +77,8 @@ bool mail::vaidate() {
 	CURL* curl;
 	CURLcode res;
 	std::string readBuffer;
-	std::string user = "api:" + (std::string)secret;
-	std::string data =  "adress=" + (std::string)to;
+	std::string user = "api:" + mailConsts::secret;
+	std::string data =  "adress=" + to;
 
 	std::string json;
 
