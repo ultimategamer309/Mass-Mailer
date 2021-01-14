@@ -30,7 +30,7 @@ gui::gui() {
 
 	//builder set defaults
 	builder.setTextDefaults(font, textSize, titleColor);
-	builder.setRectDefaults(sf::Color::Transparent, sf::Color::Black, outline2);
+	builder.setRectDefaults(secondary, sf::Color::Black, outline);
 
 	sf::RectangleShape titleBack;
 	titleBack.setFillColor(titleBar);
@@ -38,7 +38,7 @@ gui::gui() {
 	titleBack.setSize(sf::Vector2f((float)window.getSize().x, (float)window.getSize().x / 10));
 	toDraw.emplace_back(&titleBack);
 
-	
+
 	sf::Text titleText = builder.text(windowName,
 		&titleSize,
 		&titleFont);
@@ -46,19 +46,11 @@ gui::gui() {
 	toDraw.emplace_back(&titleText);
 
 	//send and validate box
-	sf::RectangleShape sendBox;
-	sendBox.setFillColor(secondary);
-	sendBox.setOutlineThickness(outline);
-	sendBox.setOutlineColor(textColor);
-	sendBox.setSize(sf::Vector2f(((float)window.getSize().x / 3), (float)window.getSize().x / 10));
-	sendBox.setPosition(window.getSize().x - sendBox.getGlobalBounds().width, window.getSize().y - sendBox.getGlobalBounds().height);
+	sf::RectangleShape sendBox = builder.rect(sf::Vector2f((window.getSize().x / 3), window.getSize().x / 10));
+	sendBox.setPosition(sf::Vector2f(window.getSize().x - sendBox.getGlobalBounds().width, window.getSize().y - sendBox.getGlobalBounds().height));
 	toDraw.emplace_back(&sendBox);
 
-	sf::Text sendTitle;
-	sendTitle.setFont(font);
-	sendTitle.setCharacterSize(subtitleSize);
-	sendTitle.setString("Send");
-	sendTitle.setFillColor(titleColor);
+	sf::Text sendTitle = builder.text("Send", &subtitleSize);
 	sendTitle.setPosition(setPos::middleX(sendBox, sendTitle),
 		(sendTitle.getGlobalBounds().height * .1) + sendBox.getGlobalBounds().top);
 	toDraw.emplace_back(&sendTitle);
@@ -86,19 +78,11 @@ gui::gui() {
 	buttonsVec.emplace_back(std::make_unique<button>(sendB));
 
 	//mailing list box
-	sf::RectangleShape ListBox;
-	ListBox.setFillColor(secondary);
-	ListBox.setOutlineThickness(outline);
-	ListBox.setOutlineColor(textColor);
-	ListBox.setSize(sf::Vector2f(((float)window.getSize().x / 1.5 - (outline * 7)), sendBox.getGlobalBounds().height - (outline * 2)));
-	ListBox.setPosition(outline * 2, sendBox.getGlobalBounds().top + outline);
+	sf::RectangleShape ListBox = builder.rect(sf::Vector2f((window.getSize().x / 1.5 - (outline * 7)), sendBox.getGlobalBounds().height - (outline * 2)),
+		sf::Vector2f(outline * 2, sendBox.getGlobalBounds().top + outline));
 	toDraw.emplace_back(&ListBox);
 
-	sf::Text listTitle;
-	listTitle.setFont(font);
-	listTitle.setCharacterSize(subtitleSize);
-	listTitle.setString("Mailing List");
-	listTitle.setFillColor(titleColor);
+	sf::Text listTitle = builder.text("Mailing List", &subtitleSize);
 	listTitle.setPosition(setPos::middleX(ListBox, listTitle),
 		(listTitle.getGlobalBounds().height * .1) + ListBox.getGlobalBounds().top);
 	toDraw.emplace_back(&listTitle);
@@ -188,14 +172,15 @@ gui::gui() {
 	progbarB.getDrawables(toDraw);
 
 	//settings
-	sf::RectangleShape settingBox(sf::Vector2f(window.getSize().x - 20,
-		window.getSize().y - ListBox.getGlobalBounds().height - titleBack.getGlobalBounds().height - progbarB.getHight() - 80));
-	settingBox.setPosition(10, titleBack.getGlobalBounds().height + 30);
-	settingBox.setOutlineThickness(outline);
-	settingBox.setOutlineColor(textColor);
-	settingBox.setFillColor(secondary);
+	sf::RectangleShape settingBox = builder.rect(
+		sf::Vector2f(window.getSize().x - 20,
+			window.getSize().y - ListBox.getGlobalBounds().height - titleBack.getGlobalBounds().height - progbarB.getHight() - 80),
+		sf::Vector2f(10, titleBack.getGlobalBounds().height + 30));
 	toDraw.emplace_back(&settingBox);
 	toDraw.emplace_back(&settingBox);
+
+	//change rect defaults
+	builder.setRectDefaults(sf::Color::Transparent, sf::Color::Black, outline2);
 
 	//sender info settings
 	button senderNameB;
@@ -228,7 +213,7 @@ gui::gui() {
 
 	//setting title
 	sf::Text settingsT = builder.text("Settings", &settingSize);
-	
+
 	settingsT.setPosition(setPos::middleX(settingBox, settingsT),
 		(senderSettings.getGlobalBounds().height / 2) - (settingsT.getGlobalBounds().height / 2) + settingBox.getGlobalBounds().top);
 	toDraw.emplace_back(&settingsT);
@@ -264,7 +249,7 @@ gui::gui() {
 	mesB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(mesB));
 
-	sf::RectangleShape mesSettings = builder.rect(sf::Vector2f(mesSubjectB.getWidth() + 20,	(senderEmailB.getHight() * 3) + 55),
+	sf::RectangleShape mesSettings = builder.rect(sf::Vector2f(mesSubjectB.getWidth() + 20, (senderEmailB.getHight() * 3) + 55),
 		sf::Vector2f(senderSettings.getGlobalBounds().left + outline2, isHtmlB.getTop() - 10));
 	toDraw.emplace_back(&mesSettings);
 
@@ -336,7 +321,7 @@ gui::gui() {
 	//debugg
 	sf::Text isdebuggingT = builder.text("Show Debugger");
 	isDegugC.set(changeKeyB.getLeft(),
-		(changeThreadsB.getHight() / 2) + changeThreadsB.getTop() - (25/2) - outline,
+		(changeThreadsB.getHight() / 2) + changeThreadsB.getTop() - (25 / 2) - outline,
 		isdebuggingT,
 		false);
 	isDegugC.getDrawables(toDraw);
@@ -401,7 +386,7 @@ void gui::update() {
 	}
 	else
 		serverT.setString("Server: " + read.getServer());
-	
+
 }
 gui::~gui() {
 	window.close();
