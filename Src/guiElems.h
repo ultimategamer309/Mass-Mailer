@@ -51,7 +51,8 @@ public:
 	void setRectDefaults(sf::Color fill,
 		sf::Color borderColor,
 		int outlineThickness);
-	sf::RectangleShape rect(sf::Vector2f size, sf::Vector2f topLeft);
+	sf::RectangleShape rect(sf::Vector2f size);
+	sf::RectangleShape rect(sf::Vector2f size, sf::Vector2f pos);
 private:
 	//text
 	sf::Font textFont;
