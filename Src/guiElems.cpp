@@ -32,9 +32,16 @@ void builder::setRectDefaults(sf::Color fill,
 	rectOutlineColor = borderColor;
 	rectOutlineThickness = outlineThickness;
 }
-sf::RectangleShape builder::rect(sf::Vector2f size, sf::Vector2f topLeft) {
+sf::RectangleShape builder::rect(sf::Vector2f size, sf::Vector2f pos) {
 	sf::RectangleShape r(size);
-	r.setPosition(topLeft);
+	r.setPosition(pos);
+	r.setFillColor(rectFill);
+	r.setOutlineColor(rectOutlineColor);
+	r.setOutlineThickness(rectOutlineThickness);
+	return r;
+}
+sf::RectangleShape builder::rect(sf::Vector2f size) {
+	sf::RectangleShape r(size);
 	r.setFillColor(rectFill);
 	r.setOutlineColor(rectOutlineColor);
 	r.setOutlineThickness(rectOutlineThickness);
