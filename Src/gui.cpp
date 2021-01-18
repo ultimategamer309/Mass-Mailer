@@ -55,23 +55,17 @@ gui::gui() {
 		(sendTitle.getGlobalBounds().height * .1) + sendBox.getGlobalBounds().top);
 	toDraw.emplace_back(&sendTitle);
 
-	button validateB;
 	sf::Text validateT = builder.text("Validate List");
-	validateB.setup(sendBox.getGlobalBounds().left + 25,
-		sendTitle.getGlobalBounds().top + sendTitle.getGlobalBounds().height + 10,
-		(sendBox.getGlobalBounds().width - 65) / 2,
-		sendBox.getGlobalBounds().height / 4,
+	button validateB(sf::Vector2f(sendBox.getGlobalBounds().left + 25, sendTitle.getGlobalBounds().top + sendTitle.getGlobalBounds().height + 10),
+		sf::Vector2f((sendBox.getGlobalBounds().width - 65) / 2, sendBox.getGlobalBounds().height / 4),
 		validateCallback,
 		validateT);
 	validateB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(validateB));
 
-	button sendB;
 	sf::Text sendT = builder.text("Start Sending");
-	sendB.setup(validateB.getLeft() + validateB.getWidth() + 15,
-		validateB.getTop(),
-		validateB.getWidth(),
-		validateB.getHight(),
+	button sendB(sf::Vector2f(validateB.getLeft() + validateB.getWidth() + 15, validateB.getTop()),
+		sf::Vector2f(validateB.getWidth(), validateB.getHight()),
 		sendCallback,
 		sendT);
 	sendB.getDrawables(toDraw);
@@ -92,83 +86,62 @@ gui::gui() {
 		(listTitle.getGlobalBounds().height * .1) + ListBox.getGlobalBounds().top + listTitle.getGlobalBounds().height + 10);
 	toDraw.emplace_back(&loadedEmails);
 
-	button veiwListB;
 	sf::Text veiwListT = builder.text("Veiw Sample");
-	veiwListB.setup(loadedEmails.getGlobalBounds().left,
-		listTitle.getGlobalBounds().top + 5,
-		(ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - 10) / 4,
-		loadedEmails.getGlobalBounds().height,
+	button veiwListB(sf::Vector2f(loadedEmails.getGlobalBounds().left, listTitle.getGlobalBounds().top + 5),
+		sf::Vector2f((ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - 10) / 4,	loadedEmails.getGlobalBounds().height),
 		veiwListCallback,
 		veiwListT);
 	veiwListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(veiwListB));
 
-	button loadListB;
 	sf::Text loadListT = builder.text("Load");
-	loadListB.setup(loadedEmails.getGlobalBounds().left + loadedEmails.getGlobalBounds().width + 25,
-		loadedEmails.getGlobalBounds().top,
-		(ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - (25 * 2) - (15 * 5)) / 5,
-		loadedEmails.getGlobalBounds().height,
+	button loadListB(sf::Vector2f(loadedEmails.getGlobalBounds().left + loadedEmails.getGlobalBounds().width + 25, loadedEmails.getGlobalBounds().top),
+		sf::Vector2f((ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - (25 * 2) - (15 * 5)) / 5, loadedEmails.getGlobalBounds().height),
 		loadListCallback,
 		loadListT);
 	loadListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(loadListB));
 
-	button exportListB;
 	sf::Text exportListT = builder.text("Export");
-	exportListB.setup(loadListB.getLeft() + loadListB.getWidth() + 15,
-		loadListB.getTop(),
-		loadListB.getWidth(),
-		loadListB.getHight(),
+	button exportListB(sf::Vector2f(loadListB.getLeft() + loadListB.getWidth() + 15, loadListB.getTop()),
+		sf::Vector2f(loadListB.getWidth(), loadListB.getHight()),
 		exportListCallback,
 		exportListT);
 	exportListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(exportListB));
 
-	button addListB;
 	sf::Text addListT = builder.text("Add");
-	addListB.setup(exportListB.getLeft() + exportListB.getWidth() + 15,
-		exportListB.getTop(),
-		exportListB.getWidth(),
-		exportListB.getHight(),
+	button addListB(sf::Vector2f(exportListB.getLeft() + exportListB.getWidth() + 15, exportListB.getTop()),
+		sf::Vector2f(exportListB.getWidth(), exportListB.getHight()),
 		addRecipiantCallback,
 		addListT);
 	addListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(addListB));
 
-	button removeListB;
 	sf::Text removeListT = builder.text("Remove");
-	removeListB.setup(addListB.getLeft() + addListB.getWidth() + 15,
-		addListB.getTop(),
-		addListB.getWidth(),
-		addListB.getHight(),
+	button removeListB(sf::Vector2f(addListB.getLeft() + addListB.getWidth() + 15, addListB.getTop()),
+		sf::Vector2f(addListB.getWidth(), addListB.getHight()),
 		removeRecipiantCallback,
 		removeListT);
 	removeListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(removeListB));
 
-	button wipeListB;
 	sf::Text wipeListT = builder.text("Wipe");
-	wipeListB.setup(removeListB.getLeft() + removeListB.getWidth() + 15,
-		removeListB.getTop(),
-		removeListB.getWidth(),
-		removeListB.getHight(),
+	button wipeListB(sf::Vector2f(removeListB.getLeft() + removeListB.getWidth() + 15, removeListB.getTop()),
+		sf::Vector2f(removeListB.getWidth(), removeListB.getHight()),
 		wipeRecipiantCallback,
 		wipeListT);
 	wipeListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(wipeListB));
 
 	//progress bar
-	button progbarB;
 	sf::Text progbarT("Progress: NULL", font, bigTextSize);
-	prog = &progbarT;
-	progB = &progbarB;
-	progbarB.setup(10,
-		ListBox.getGlobalBounds().top - 60,
-		window.getSize().x - 20,
-		50,
+	button progbarB(sf::Vector2f(10,	ListBox.getGlobalBounds().top - 60),
+		sf::Vector2f(window.getSize().x - 20, 50),
 		validateCallback,
 		progbarT);
+	prog = &progbarT;
+	progB = &progbarB;
 	progbarB.getDrawables(toDraw);
 
 	//settings
@@ -183,23 +156,17 @@ gui::gui() {
 	builder.setRectDefaults(sf::Color::Transparent, sf::Color::Black, outline2);
 
 	//sender info settings
-	button senderNameB;
 	sf::Text senderNameT = builder.text("Change Sender Name");
-	senderNameB.setup(settingBox.getGlobalBounds().left + 20,
-		settingBox.getGlobalBounds().top + 20,
-		senderNameT.getGlobalBounds().width + 20,
-		senderNameT.getGlobalBounds().height + 20,
+	button senderNameB(sf::Vector2f(settingBox.getGlobalBounds().left + 20,	settingBox.getGlobalBounds().top + 20),
+		sf::Vector2f(senderNameT.getGlobalBounds().width + 20, senderNameT.getGlobalBounds().height + 20),
 		changeSenderCallback,
 		senderNameT);
 	senderNameB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(senderNameB));
 
-	button senderEmailB;
 	sf::Text senderEmailT = builder.text("Change Sender Email");
-	senderEmailB.setup(senderNameB.getLeft(),
-		senderNameB.getTop() + senderNameB.getHight() + 20,
-		senderEmailT.getGlobalBounds().width + 20,
-		senderEmailT.getGlobalBounds().height + 20,
+	button senderEmailB(sf::Vector2f(senderNameB.getLeft(), senderNameB.getTop() + senderNameB.getHight() + 20),
+		sf::Vector2f(senderEmailT.getGlobalBounds().width + 20,	senderEmailT.getGlobalBounds().height + 20),
 		changeSendEmailCallback,
 		senderEmailT);
 	senderEmailB.getDrawables(toDraw);
@@ -227,23 +194,17 @@ gui::gui() {
 	isHtmlB.getDrawables(toDraw);
 	checkboxVec.emplace_back(&isHtmlB);
 
-	button mesSubjectB;
 	sf::Text mesSubjectT = builder.text("Change Email Subject");
-	mesSubjectB.setup(isHtmlB.getLeft(),
-		senderNameB.getTop() + (3 * senderNameB.getHight()) + 60,
-		senderEmailB.getWidth(),
-		senderEmailB.getHight(),
+	button mesSubjectB(sf::Vector2f(isHtmlB.getLeft(), senderNameB.getTop() + (3 * senderNameB.getHight()) + 60),
+		sf::Vector2f(senderEmailB.getWidth(), senderEmailB.getHight()),
 		changeSubjectCallback,
 		mesSubjectT);
 	mesSubjectB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(mesSubjectB));
 
-	button mesB;
 	sf::Text mesT = builder.text("Change Email Message");
-	mesB.setup(isHtmlB.getLeft(),
-		mesSubjectB.getTop() + senderEmailB.getHight() + 20,
-		senderEmailB.getWidth(),
-		senderEmailB.getHight(),
+	button mesB(sf::Vector2f(isHtmlB.getLeft(),	mesSubjectB.getTop() + senderEmailB.getHight() + 20),
+		sf::Vector2f(senderEmailB.getWidth(), senderEmailB.getHight()),
 		changeMessageCallback,
 		mesT);
 	mesB.getDrawables(toDraw);
@@ -254,13 +215,10 @@ gui::gui() {
 	toDraw.emplace_back(&mesSettings);
 
 	//threads
-	button threadsAlloted;
 	threadCurr = read.getThreads();
 	sf::Text threadsAllotedT = builder.text("Maximum Threads: " + std::to_string(threadCurr));
-	threadsAlloted.setup(mesB.getLeft() + mesB.getWidth() + 30,
-		mesB.getTop(),
-		mesB.getWidth() * 2,
-		mesB.getHight(),
+	button threadsAlloted(sf::Vector2f(mesB.getLeft() + mesB.getWidth() + 30, mesB.getTop()),
+		sf::Vector2f(mesB.getWidth() * 2, mesB.getHight()),
 		changeThreadsCallback,
 		threadsAllotedT);
 	threadsT = &threadsAllotedT;
@@ -268,12 +226,9 @@ gui::gui() {
 	threadsAlloted.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(threadsAlloted));
 
-	button changeThreadsB;
 	sf::Text changeThreadsT = builder.text("Change Max Threads");
-	changeThreadsB.setup((threadsAlloted.getLeft() / 2) - (mesSubjectB.getWidth() / 1.333) + threadsAlloted.getWidth(),
-		mesSubjectB.getTop(),
-		mesSubjectB.getWidth(),
-		mesSubjectB.getHight(),
+	button changeThreadsB(sf::Vector2f((threadsAlloted.getLeft() / 2) - (mesSubjectB.getWidth() / 1.333) + threadsAlloted.getWidth(), mesSubjectB.getTop()),
+		sf::Vector2f(mesSubjectB.getWidth(), mesSubjectB.getHight()),
 		changeThreadsCallback,
 		changeThreadsT);
 	changeThreadsB.getDrawables(toDraw);
@@ -292,23 +247,17 @@ gui::gui() {
 	isDefaultServerC.getDrawables(toDraw);
 	checkboxVec.emplace_back(&isDefaultServerC);
 
-	button changeServerB;
 	sf::Text changeServerT = builder.text("Change Server");
-	changeServerB.setup(isDefaultServerC.getLeft(),
-		senderEmailB.getTop() - 10,
-		senderEmailB.getWidth(),
-		senderEmailB.getHight(),
+	button changeServerB(sf::Vector2f(isDefaultServerC.getLeft(), senderEmailB.getTop() - 10),
+		sf::Vector2f(senderEmailB.getWidth(), senderEmailB.getHight()),
 		changeServerCallback,
 		changeServerT);
 	changeServerB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(changeServerB));
 
-	button changeKeyB;
 	sf::Text changeKeyT = builder.text("Change Server Key");
-	changeKeyB.setup(isDefaultServerC.getLeft(),
-		changeServerB.getTop() + changeServerB.getHight() + 20,
-		senderEmailB.getWidth(),
-		senderEmailB.getHight(),
+	button changeKeyB(sf::Vector2f(isDefaultServerC.getLeft(), changeServerB.getTop() + changeServerB.getHight() + 20),
+		sf::Vector2f(senderEmailB.getWidth(), senderEmailB.getHight()),
 		changeKeyCallback,
 		changeKeyT);
 	changeKeyB.getDrawables(toDraw);
@@ -328,12 +277,9 @@ gui::gui() {
 	checkboxVec.emplace_back(&isDegugC);
 
 	//save
-	button saveDataB;
 	sf::Text saveDataT = builder.text("Save Settings");
-	saveDataB.setup(changeKeyB.getLeft(),
-		threadsAlloted.getTop(),
-		senderEmailB.getWidth(),
-		senderEmailB.getHight(),
+	button saveDataB(sf::Vector2f(changeKeyB.getLeft(), threadsAlloted.getTop()),
+		sf::Vector2f(senderEmailB.getWidth(), senderEmailB.getHight()),
 		saveDataCallback,
 		saveDataT);
 	saveDataB.getDrawables(toDraw);
