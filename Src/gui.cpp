@@ -3,9 +3,9 @@
 gui::gui() {
 	std::cout << "logs will be displayed here" << std::endl;
 	read.open();
-	data d = read.readWindow();
+	sf::Vector2f d = read.readWindow();
 	read.read();
-	window.create(sf::VideoMode(d.demensionX, d.demensionY, 32), windowName);
+	window.create(sf::VideoMode(d.x, d.y, 32), windowName);
 	backround = sf::Color(48, 48, 48);
 	titleBar = sf::Color(33, 33, 33);
 	secondary = sf::Color(66, 66, 66);
