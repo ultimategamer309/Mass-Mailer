@@ -17,8 +17,8 @@ Install Release
 3. Extract .zip
 4. run exe
 
-Install Code
-------------
+Install Source Code
+-------------------
 1. Clone Src branch via git
 2. Install sfml, boost.asio, and libcurl
 
