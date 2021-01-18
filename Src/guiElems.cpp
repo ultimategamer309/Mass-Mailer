@@ -49,6 +49,46 @@ sf::RectangleShape builder::rect(sf::Vector2f size) {
 }
 
 //button
+button::button() {}
+button::button(sf::Vector2f leftTop,
+	sf::Vector2f widthHeight,
+	std::function<void(reader*)> onClick,
+	sf::Text& text,
+	reader* ) {
+	this->setup(leftTop.x,
+		leftTop.y,
+		widthHeight.x,
+		widthHeight.y,
+		onClick,
+		text);
+}
+button::button(int left,
+	int top,
+	int width,
+	int hight,
+	std::function<void(reader*)> onClick,
+	sf::Text& text,
+	reader* r) {
+	this->setup(left,
+		top,
+		width,
+		hight,
+		onClick,
+		text,
+		r);
+}
+void button::setup(sf::Vector2f leftTop,
+	sf::Vector2f widthHeight,
+	std::function<void(reader*)> onClick,
+	sf::Text& text,
+	reader* r) {
+	this->setup(leftTop.x,
+		leftTop.y,
+		widthHeight.x,
+		widthHeight.y,
+		onClick,
+		text);
+}
 void button::setup(int left,
 	int top,
 	int width,
@@ -230,22 +270,16 @@ yesOrNo::yesOrNo(std::string title,
 	d.emplace_back(&promptT);
 	reader r;
 	//yes or no buttons
-	button y;
 	sf::Text yT("Yes", font, 18);
-	y.setup(rBack.getGlobalBounds().left + rBack.getGlobalBounds().width - yT.getGlobalBounds().width - 30,
-		200 - 22 - 10,
-		yT.getGlobalBounds().width + 10,
-		yT.getGlobalBounds().height + 10,
+	button y(sf::Vector2f(rBack.getGlobalBounds().left + rBack.getGlobalBounds().width - yT.getGlobalBounds().width - 30, 200 - 22 - 10),
+		sf::Vector2f(yT.getGlobalBounds().width + 10, yT.getGlobalBounds().height + 10),
 		yCallback,
 		yT,
 		&r);
 	std::cout << y.getHight();
-	button n;
 	sf::Text nT("No", font, 18);
-	n.setup(y.getLeft() - nT.getGlobalBounds().width - 35,
-		y.getTop(),
-		y.getWidth(),
-		y.getHight(),
+	button n(sf::Vector2f(y.getLeft() - nT.getGlobalBounds().width - 35, y.getTop()),
+		sf::Vector2f(y.getWidth(), y.getHight()),
 		nCallback,
 		nT,
 		&r);
