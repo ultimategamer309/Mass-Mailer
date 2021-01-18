@@ -3,18 +3,38 @@
 file::file(std::string fileLoc, std::string name) {
 	this->name = name;
 	loc = fileLoc;
+	get();
 }
 file::file() {}
+std::fstream file::get() {
+	//needs existing file
+	if (!std::filesystem::exists(loc))
+		std::ofstream ofs(loc);
+
+	std::fstream f(loc, std::ios::out | std::ios::in);
+	if (f.peek() == std::fstream::traits_type::eof()) {
+		emptyFlair = true;
+	}
+	return f;
+}
+std::fstream file::getTrunc() {
+	std::fstream f(loc, std::ios::out | std::ios::in | std::ios::trunc);
+	if (!f.peek() == std::ifstream::traits_type::eof()) {
+		emptyFlair = true;
+	}
+	return f;
+}
 void file::open(std::string fileLoc, std::string name) {
 	this->name = name;
 	loc = fileLoc;
+	get();
 }
 void file::trunc() {
-	std::fstream f(loc, std::ios::trunc);
+	std::fstream f = get();
 	f.close();
 }
 std::vector<std::string> file::getlines() {
-	std::fstream f(loc, std::ios::in);
+	std::fstream f = get();
 	std::vector<std::string> temp;
 	std::string line;
 	while (std::getline(f, line)) {
@@ -27,18 +47,20 @@ std::string file::getName() {
 	return name;
 }
 void file::writeVec(std::vector<std::string> strVec) {
-	std::fstream f(loc, std::fstream::out | std::fstream::trunc);
+	std::fstream f = getTrunc();
 	for (int i = 0; i < strVec.size(); i++) {
 		f << strVec[i] << std::endl;
 	}
 	f.close();
 }
 void file::write(std::string s) {
-	std::fstream f(loc, std::fstream::trunc);
+	std::fstream f = getTrunc();
 	f << s << std::endl;
 	f.close();
 }
-file::file(const file&) {}
+bool file::isEmpty() {
+	return emptyFlair;
+}
 
 //open all files
 reader::reader() {
@@ -81,27 +103,53 @@ void reader::save() {
 }
 
 //read settings from files
+//else is what variables are set to if settings files are empty
 void reader::read() {
 	//get isHtml from first line of message file, delete the first line from vector, and save the rest to message vector
-	std::vector<std::string> mesTemp = messageF.getlines();
-	isHtml = std::stoi(mesTemp[0]);
-	mesTemp.erase(mesTemp.begin());
-	message = mesTemp;
+	if (!messageF.isEmpty()) {
+		std::vector<std::string> mesTemp = messageF.getlines();
+		isHtml = std::stoi(mesTemp[0]);
+		mesTemp.erase(mesTemp.begin());
+		message = mesTemp;
+	}
+	else
+		isHtml = false;
 	//get recipiants
-	recipiants = toF.getlines();
+	if (!toF.isEmpty())
+		recipiants = toF.getlines();
+	else
+		recipiants = { "Default Message!" };
 	//get name
-	name = nameF.getlines()[0];
+	if (!nameF.isEmpty())
+		name = nameF.getlines()[0];
+	else
+		name = "Sender";
 	//get from
-	from = fromF.getlines()[0];
+	if (!fromF.isEmpty())
+		from = fromF.getlines()[0];
+	else
+		from = "MassMailer@yourcomputer.com";
 	//get subject
-	subject = subjectF.getlines()[0];
+	if (!subjectF.isEmpty())
+		subject = subjectF.getlines()[0];
+	else
+		subject = "Subject Goes Here";
 	//get key
-	key = keyF.getlines()[0];
+	if (!keyF.isEmpty())
+		key = keyF.getlines()[0];
+	else
+		key = "Key is Undeffined";
 	//get threads
-	threads = std::stoi(threadF.getlines()[0]);
+	if (!threadF.isEmpty())
+		threads = std::stoi(threadF.getlines()[0]);
+	else
+		threads = 6;
 	//get server
 	try {
-		server = serverF.getlines()[0];
+		if (!serverF.isEmpty())
+			server = serverF.getlines()[0];
+		else
+			server = "0";
 	}
 	catch (int err) {
 		server = "0";
@@ -226,19 +274,19 @@ bool reader::isDefaultServer() {
 	return false;
 }
 
-data reader::readWindow() {
-	data d;
+sf::Vector2f reader::readWindow() {
 	file f(settingsPathS + windowS, "window");
-	std::vector<std::string> line = f.getlines();
-
-	d.demensionX = std::stoi(line[0]);
-	d.demensionY = std::stoi(line[1]);
-
-	return d;
+	std::vector<std::string> line;
+	if (!f.isEmpty())
+		line = f.getlines();
+	else
+		line = { "800", "600" };
+	dataSave = sf::Vector2f(std::stoi(line[0]), std::stoi(line[1]));
+	return dataSave;
 }
 
 void reader::saveWindow() {
 	file f(settingsPathS + windowS, "window");
-	f.write(std::to_string(dataSave.demensionX));
-	f.write(std::to_string(dataSave.demensionY));
+	f.write(std::to_string(dataSave.x));
+	f.write(std::to_string(dataSave.y));
 }
