@@ -67,6 +67,24 @@ private:
 class button {
 public:
 	bool isClicked(sf::Vector2i& clickPos);
+	button();
+	button(sf::Vector2f leftTop,
+		sf::Vector2f widthHeight,
+		std::function<void(reader*)> onClick,
+		sf::Text& text,
+		reader* r = universal::read);
+	button(int left,
+		int top,
+		int width,
+		int hight,
+		std::function<void(reader*)> onClick,
+		sf::Text& text,
+		reader* r = universal::read);
+	void setup(sf::Vector2f leftTop,
+		sf::Vector2f widthHeight,
+		std::function<void(reader*)> onClick,
+		sf::Text& text,
+		reader* r = universal::read);
 	void setup(int left,
 		int top,
 		int width,
