@@ -1,7 +1,10 @@
 #pragma once
+#include "SFML/Main.hpp"
 #include "mailman.h"
+#include "SFML/Graphics.hpp"
 #include <filesystem>
 #include <string>
+#include <filesystem>
 #include <algorithm>
 
 class file 
@@ -9,22 +12,20 @@ class file
 public:
 	file(std::string fileLoc, std::string name);
 	file();
-	file(const file&);
+	std::fstream get();
+	std::fstream getTrunc();
 	void open(std::string fileLoc, std::string name);
 	void writeVec(std::vector<std::string> strVec);
 	void write(std::string s);
 	void trunc();
+	bool isEmpty();
 	std::vector<std::string> getlines();
 	std::string getName();
 private:
 	std::string name;
 	std::string path;
 	std::string loc;
-};
-
-struct data {
-	int demensionX;
-	int demensionY;
+	bool emptyFlair = false;
 };
 
 class reader
@@ -73,7 +74,7 @@ public:
 	//first is completed second is total
 
 	//window settings
-	data readWindow();
+	sf::Vector2f readWindow();
 	void saveWindow();
 private:
 	//bool
@@ -118,6 +119,6 @@ private:
 	mailman mailer;
 
 	//data
-	data dataSave;
+	sf::Vector2f dataSave;
 };
 
