@@ -16,17 +16,11 @@ gui::gui() {
 
 	//set universals
 	//Buttons
-	universal::buttonBorder = backround;
-	universal::buttonFill = titleBar;
-	universal::buttonOutline = 5;
+	universal::setButton(backround, titleBar, 5);
 	//checkbox
-	universal::checkboxBorder = textColor;
-	universal::checkboxFill = titleBar;
-	universal::checkboxBoxSize = 25;
-	universal::checkboxTextSeperation = 10;
-	universal::textRightOfCheckbox = true;
+	universal::setCheckbox(textColor, titleBar, 25, 10, true);
 	//reader
-	universal::read = &read;
+	universal::setReader(&read);
 
 	//builder set defaults
 	builder.setTextDefaults(font, textSize, titleColor);
@@ -47,7 +41,7 @@ gui::gui() {
 
 	//send and validate box
 	sf::RectangleShape sendBox = builder.rect(sf::Vector2f((window.getSize().x / 3), window.getSize().x / 10));
-	sendBox.setPosition(sf::Vector2f(window.getSize().x - sendBox.getGlobalBounds().width, window.getSize().y - sendBox.getGlobalBounds().height));
+	sendBox.setPosition(setPos::setTop(window, sendBox));
 	toDraw.emplace_back(&sendBox);
 
 	sf::Text sendTitle = builder.text("Send", &subtitleSize);
@@ -56,7 +50,7 @@ gui::gui() {
 	toDraw.emplace_back(&sendTitle);
 
 	sf::Text validateT = builder.text("Validate List");
-	button validateB(sf::Vector2f(sendBox.getGlobalBounds().left + 25, sendTitle.getGlobalBounds().top + sendTitle.getGlobalBounds().height + 10),
+	button validateB(sf::Vector2f(sendBox.getGlobalBounds().left + 25, setPos::getBottom(sendTitle) + 10),
 		sf::Vector2f((sendBox.getGlobalBounds().width - 65) / 2, sendBox.getGlobalBounds().height / 4),
 		validateCallback,
 		validateT);
@@ -72,7 +66,8 @@ gui::gui() {
 	buttonsVec.emplace_back(std::make_unique<button>(sendB));
 
 	//mailing list box
-	sf::RectangleShape ListBox = builder.rect(sf::Vector2f((window.getSize().x / 1.5 - (outline * 7)), sendBox.getGlobalBounds().height - (outline * 2)),
+	sf::RectangleShape ListBox;
+	ListBox = builder.rect(sf::Vector2f((window.getSize().x / 1.5 - (outline * 7)), sendBox.getGlobalBounds().height - (outline * 2)),
 		sf::Vector2f(outline * 2, sendBox.getGlobalBounds().top + outline));
 	toDraw.emplace_back(&ListBox);
 
@@ -83,20 +78,20 @@ gui::gui() {
 
 	loadedEmails = builder.text("Emails: " + std::to_string(loadedEmailsInt), &bigTextSize);
 	loadedEmails.setPosition((loadedEmails.getGlobalBounds().width / 2) + ListBox.getGlobalBounds().left - 25,
-		(listTitle.getGlobalBounds().height * .1) + ListBox.getGlobalBounds().top + listTitle.getGlobalBounds().height + 10);
+		(listTitle.getGlobalBounds().height * .1) + setPos::getBottom(ListBox, listTitle) + 10);
 	toDraw.emplace_back(&loadedEmails);
 
 	sf::Text veiwListT = builder.text("Veiw Sample");
 	button veiwListB(sf::Vector2f(loadedEmails.getGlobalBounds().left, listTitle.getGlobalBounds().top + 5),
-		sf::Vector2f((ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - 10) / 4,	loadedEmails.getGlobalBounds().height),
+		sf::Vector2f((setPos::widthDifference(ListBox, loadedEmails) - 10) / 4,	loadedEmails.getGlobalBounds().height),
 		veiwListCallback,
 		veiwListT);
 	veiwListB.getDrawables(toDraw);
 	buttonsVec.emplace_back(std::make_unique<button>(veiwListB));
 
 	sf::Text loadListT = builder.text("Load");
-	button loadListB(sf::Vector2f(loadedEmails.getGlobalBounds().left + loadedEmails.getGlobalBounds().width + 25, loadedEmails.getGlobalBounds().top),
-		sf::Vector2f((ListBox.getGlobalBounds().width - loadedEmails.getGlobalBounds().width - (25 * 2) - (15 * 5)) / 5, loadedEmails.getGlobalBounds().height),
+	button loadListB(sf::Vector2f(setPos::getRight(loadedEmails) + 25, loadedEmails.getGlobalBounds().top),
+		sf::Vector2f((setPos::widthDifference(ListBox, loadedEmails) - 125) / 5, loadedEmails.getGlobalBounds().height),
 		loadListCallback,
 		loadListT);
 	loadListB.getDrawables(toDraw);
@@ -146,8 +141,7 @@ gui::gui() {
 
 	//settings
 	sf::RectangleShape settingBox = builder.rect(
-		sf::Vector2f(window.getSize().x - 20,
-			window.getSize().y - ListBox.getGlobalBounds().height - titleBack.getGlobalBounds().height - progbarB.getHight() - 80),
+		sf::Vector2f(window.getSize().x - 20, setPos::heightDifference(window, ListBox) - setPos::heightTotal(titleBack, progbarB) - 80),
 		sf::Vector2f(10, titleBack.getGlobalBounds().height + 30));
 	toDraw.emplace_back(&settingBox);
 	toDraw.emplace_back(&settingBox);
