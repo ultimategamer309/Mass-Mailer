@@ -104,24 +104,29 @@ void button::setup(int left,
 	this->r = r;
 
 	sf::RectangleShape shape;
-	shape.setFillColor(universal::buttonFill);
-	shape.setOutlineColor(universal::buttonBorder);
-	shape.setOutlineThickness(universal::buttonOutline);
+	if (universal::buttonDeffined) {
+		shape.setFillColor(universal::buttonFill);
+		shape.setOutlineColor(universal::buttonBorder);
+		shape.setOutlineThickness(universal::buttonOutline);
+	}
+	else {
+		shape.setFillColor(sf::Color::White);
+		shape.setOutlineColor(sf::Color::Black);
+		shape.setOutlineThickness(5);
+	}
 	shape.setSize(sf::Vector2f(width, hight));
 	shape.setPosition(left, top);
 
 	sf::Text t;
 	t = text;
-	t.setPosition((shape.getGlobalBounds().width / 2) - (text.getGlobalBounds().width / 2) + shape.getGlobalBounds().left,
-		(shape.getGlobalBounds().height / 2) - (text.getGlobalBounds().height / 1.25) + shape.getGlobalBounds().top);
+	t.setPosition(setPos::middle(shape, text));
 
 	button::shape = shape;
 	button::text = t;
 }
 
 void button::updateTextPos() {
-	text.setPosition((shape.getGlobalBounds().width / 2) - (text.getGlobalBounds().width / 2) + shape.getGlobalBounds().left,
-		(shape.getGlobalBounds().height / 2) - (text.getGlobalBounds().height / 1.25) + shape.getGlobalBounds().top);
+	text.setPosition(setPos::middle(shape, text));
 }
 
 bool button::isClicked(sf::Vector2i& clickPos) {
@@ -396,7 +401,7 @@ void checkbox::set(int left,
 	this->top = top;
 	this->spaceFromCheckboxToText = universal::checkboxTextSeperation;
 	t = title;
-	this->textRightOfCheckbox = universal::textRightOfCheckbox;
+	this->textRightOfCheckbox = universal::checkboxisLeft;
 	this->border = universal::checkboxBorder;
 	this->fill = universal::checkboxFill;
 	this->boxSize = universal::checkboxBoxSize;
