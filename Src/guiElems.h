@@ -10,17 +10,42 @@
 
 class universal {
 public:
-
+	inline static void setButton(sf::Color border, sf::Color fill, int outline) {
+		buttonBorder = border;
+		buttonFill = fill;
+		buttonOutline = outline;
+		buttonDeffined = true;
+	}
+	inline static void setCheckbox(sf::Color border,
+		sf::Color fill,
+		int boxSize,
+		int textSeperation,
+		bool textRightOfCheckbox) {
+		checkboxBorder = border;
+		checkboxFill = fill;
+		checkboxBoxSize = boxSize;
+		checkboxTextSeperation = textSeperation;
+		checkboxisLeft = textRightOfCheckbox;
+	}
+	inline static void setReader(reader* r) {
+		read = r;
+	}
+private:
+	//freinds
+	friend class button;
+	friend class checkbox;
 	//Buttons
 	inline static sf::Color buttonBorder;
 	inline static sf::Color buttonFill;
 	inline static int buttonOutline;
+	inline static bool buttonDeffined = false;
 	//checkbox
 	inline static sf::Color checkboxBorder;
 	inline static sf::Color checkboxFill;
 	inline static int checkboxBoxSize;
 	inline static int checkboxTextSeperation;
-	inline static bool textRightOfCheckbox;
+	inline static bool checkboxisLeft;
+	inline static bool checkboxDeffined = false;
 	//reader
 	inline static reader* read;
 };
@@ -38,6 +63,33 @@ public:
 	}
 	inline static float middleY(sf::RectangleShape& back, sf::Text text) {
 		return (back.getGlobalBounds().height / 2) - (text.getGlobalBounds().height / 1.25) + back.getGlobalBounds().top;
+	}
+	inline static sf::Vector2f setTop(sf::RenderWindow &window, sf::RectangleShape &rect) {
+		return sf::Vector2f(window.getSize().x - rect.getGlobalBounds().width, window.getSize().y - rect.getGlobalBounds().height);
+	}
+	inline static float getBottom(sf::RectangleShape& rect) {
+		return rect.getGlobalBounds().top + rect.getGlobalBounds().height;
+	}
+	inline static float getBottom(sf::Text& t) {
+		return t.getGlobalBounds().top + t.getGlobalBounds().height;
+	}
+	inline static float getBottom(sf::RectangleShape& rect, sf::Text& t) {
+		return rect.getGlobalBounds().top + t.getGlobalBounds().height;
+	}
+	inline static float getRight(sf::RectangleShape& rect) {
+		return rect.getGlobalBounds().left + rect.getGlobalBounds().width;
+	}
+	inline static float getRight(sf::Text& t) {
+		return t.getGlobalBounds().left + t.getGlobalBounds().width;
+	}
+	inline static float widthDifference(sf::RectangleShape &r, sf::Text &t) {
+		return r.getGlobalBounds().width - t.getGlobalBounds().width;
+	}
+	inline static float heightDifference(sf::RenderWindow &r, sf::RectangleShape& rect) {
+		return r.getSize().y - rect.getGlobalBounds().height;
+	}
+	inline static float heightTotal(sf::RectangleShape& rect, button &b) {
+		return rect.getGlobalBounds().height - b.getHight();
 	}
 };
 
